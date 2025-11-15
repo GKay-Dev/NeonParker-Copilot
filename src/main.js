@@ -1,25 +1,28 @@
-import * as THREE from 'three';
 import { initScene } from './scene.js';
 import { createNeonGround } from './ground.js';
+import * as THREE from 'three';
 
-// Initialize scene with reusable module
-const { scene, camera, renderer, resize } = initScene();
-document.body.appendChild(renderer.domElement);
+// Ensure body is ready for full-canvas rendering
+document.body.style.margin = '0';
+document.body.style.overflow = 'hidden';
 
-// Application-specific setup: create rotating cube
-const geometry = new THREE.BoxGeometry();
-const material = new THREE.MeshStandardMaterial({ color: 0x00aaff });
-const cube = new THREE.Mesh(geometry, material);
-scene.add(cube);
+const canvas = document.createElement('canvas');
+document.body.appendChild(canvas);
 
-// Add neon ground beneath the cube
+const { scene, camera, renderer } = initScene(canvas);
+
+// Ground
 const ground = createNeonGround();
 scene.add(ground);
 
-// Handle window resize
-window.addEventListener('resize', resize);
+// Demo cube
+const cube = new THREE.Mesh(
+  new THREE.BoxGeometry(),
+  new THREE.MeshStandardMaterial({ color: 0x00aaff })
+);
+cube.position.y = 0.5;
+scene.add(cube);
 
-// Animation loop
 function animate() {
   cube.rotation.x += 0.01;
   cube.rotation.y += 0.015;
