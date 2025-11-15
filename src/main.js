@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { initScene } from './scene.js';
+import { createNeonGround } from './ground.js';
 
 // Initialize scene with reusable module
 const { scene, camera, renderer, resize } = initScene();
@@ -10,6 +11,10 @@ const geometry = new THREE.BoxGeometry();
 const material = new THREE.MeshStandardMaterial({ color: 0x00aaff });
 const cube = new THREE.Mesh(geometry, material);
 scene.add(cube);
+
+// Add neon ground beneath the cube
+const ground = createNeonGround();
+scene.add(ground);
 
 // Handle window resize
 window.addEventListener('resize', resize);
