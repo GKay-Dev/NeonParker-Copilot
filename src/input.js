@@ -114,8 +114,20 @@ export class InputManager {
   }
 
   _setupTouchUI(enableTouchUI) {
-    const preferTouch = enableTouchUI ?? matchMedia('(pointer: coarse)').matches || 'ontouchstart' in window;
-    if (!preferTouch) { this._ui = null; return; }
+    // Determine environment support for touch/joystick UI
+    const autoTouch =
+      (typeof window !== 'undefined') &&
+      (
+        (window.matchMedia && window.matchMedia('(pointer: coarse)').matches) ||
+        ('ontouchstart' in window)
+      );
+
+    // Respect explicit enableTouchUI when provided; otherwise use environment detection
+    const preferTouch = (enableTouchUI ?? autoTouch);
+    if (!preferTouch) {
+      this._ui = null;
+      return;
+    }
     this._ui = document.getElementById('touch-ui');
     if (!this._ui) {
       this._ui = document.createElement('div');
