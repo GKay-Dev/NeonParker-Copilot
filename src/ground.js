@@ -47,7 +47,7 @@ export function createNeonGround() {
     // Varyings for world space data
     shader.vertexShader = shader.vertexShader
       .replace('#include <common>', '#include <common>\n varying vec3 vWorldPos;\n varying vec3 vWorldNormal;')
-      .replace('#include <worldpos_vertex>', `#include <worldpos_vertex>`).replace('worldPosition = modelMatrix * worldPosition;', 'worldPosition = modelMatrix * worldPosition;\n vWorldPos = worldPosition.xyz;\n vWorldNormal = normalize(mat3(modelMatrix) * normal);');
+      .replace('worldPosition = modelMatrix * worldPosition;', 'worldPosition = modelMatrix * worldPosition;\n vWorldPos = worldPosition.xyz;\n vWorldNormal = normalize(mat3(modelMatrix) * normal);');
 
     // Fragment shader: add noise + rim and pipe into totalEmissiveRadiance
     shader.fragmentShader = shader.fragmentShader
