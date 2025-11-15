@@ -1,5 +1,6 @@
 import { initScene } from './scene.js';
 import { createNeonGround } from './ground.js';
+import { InputManager } from './input.js';
 import * as THREE from 'three';
 
 // Ensure body is ready for full-canvas rendering
@@ -23,9 +24,19 @@ const cube = new THREE.Mesh(
 cube.position.y = 0.5;
 scene.add(cube);
 
+// Input
+const input = new InputManager();
+
 function animate() {
-  cube.rotation.x += 0.01;
-  cube.rotation.y += 0.015;
+  const controls = input.update();
+  const speedFactor = controls.sprint ? 2.0 : 1.0;
+
+  cube.rotation.x += 0.01 * speedFactor;
+  cube.rotation.y += 0.015 * speedFactor;
+
+  // Future: integrate Player
+  // player.handleInput(controls);
+
   renderer.render(scene, camera);
   requestAnimationFrame(animate);
 }
